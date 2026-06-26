@@ -152,6 +152,49 @@
     }
   }
 
+  /* Cosy lighting: warm window beams, flickering fire glow, soft vignette. */
+  function drawLighting(t) {
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter"; // additive glow
+
+    for (const o of room.objects) {
+      if (o.clouds) {                          // sunbeam from a window
+        const bx = o.x + o.w * 0.2, by = o.y + o.h;
+        const grad = ctx.createLinearGradient(0, by, 0, by + 130);
+        grad.addColorStop(0, "rgba(255,226,150,0.16)");
+        grad.addColorStop(1, "rgba(255,226,150,0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx + o.w * 0.6, by);
+        ctx.lineTo(bx + o.w * 0.6 + 46, by + 130);
+        ctx.lineTo(bx + 28, by + 130);
+        ctx.closePath();
+        ctx.fill();
+      }
+      if (o.id === "fireplace") {               // warm flickering glow
+        const cx = o.x + o.w / 2, cy = o.y + o.h - 12;
+        const flick = 0.16 + 0.05 * Math.sin(t * 9) + 0.03 * Math.sin(t * 17 + 1);
+        const rad = 150 + 10 * Math.sin(t * 6);
+        const g = ctx.createRadialGradient(cx, cy, 8, cx, cy, rad);
+        g.addColorStop(0, `rgba(255,150,60,${flick})`);
+        g.addColorStop(1, "rgba(255,150,60,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+    ctx.restore();
+
+    // vignette — darken the corners for a cosy, lamp-lit feel
+    const v = ctx.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 60,
+      canvas.width / 2, canvas.height / 2, canvas.width * 0.62);
+    v.addColorStop(0, "rgba(20,12,6,0)");
+    v.addColorStop(1, "rgba(20,12,6,0.42)");
+    ctx.fillStyle = v;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
   /* ---------- main loop ---------- */
   let lastT = performance.now();
   function frame(now) {
@@ -194,6 +237,7 @@
     for (const o of room.objects) o.draw(ctx, t);
     P.drawPlayer(ctx, player, t);
     drawDust(t);
+    drawLighting(t);
 
     if (trans.active) {
       ctx.fillStyle = `rgba(8,8,14,${trans.alpha})`;

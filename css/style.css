@@ -4,12 +4,12 @@
 
 /* A pixel-style system font stack (no external font download needed). */
 :root {
-  --ink: #f4f4f4;
-  --bg: #15151f;
-  --panel: #1f2233;
-  --accent: #41a6f6;
-  --gold: #ffcd75;
-  --frame: #8b5a2b;
+  --ink: #f6ecd6;
+  --bg: #2a1d12;
+  --panel: #3a2a1a;
+  --accent: #f0a64a;
+  --gold: #ffd977;
+  --frame: #8a5a2e;
   font-family: "Courier New", "Lucida Console", monospace;
 }
 
@@ -17,7 +17,7 @@
 
 html, body {
   height: 100%;
-  background: #0c0c12;
+  background: #160e07;
   color: var(--ink);
   overflow: hidden;
   -webkit-font-smoothing: none;
@@ -30,7 +30,7 @@ html, body {
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 50% 30%, #1c2030 0%, #0c0c12 75%);
+    radial-gradient(circle at 50% 30%, #34241500 0%, #2a1c10 0%, #160e07 78%);
 }
 
 canvas#game {

@@ -1,9 +1,10 @@
 # 🕹️ 8-bit Portfolio
 
-A tiny **2D, 8-bit style portfolio** you explore like a retro game. Walk your
-character around a pixel-art **house**, move between rooms through a door, and
-step up to objects to reveal your CV, achievements, and projects — with
-animated scenery and generated chiptune music.
+A tiny **2D, cosy pixel-art portfolio** you explore like a retro farming game.
+Walk your character around a warm little **house** — past a crackling
+fireplace and a napping cat — move between rooms through a door, and step up to
+objects to reveal your CV, achievements, and projects. Soft lighting, animated
+scenery, and generated chiptune music throughout.
 
 Everything is **generated in code** — the room, furniture, and character are
 all drawn from pixel grids. There are **no image assets and no build step or
@@ -80,8 +81,17 @@ panels, and touch controls.
 - **Generated chiptune** background music + sound effects (footsteps, open /
   close, door, wall bump) with a persistent mute toggle
 
+**Phase 3 — cosy "Stardew Valley" makeover (done):**
+- Warm honey-wood **plank floors** and **wallpapered walls** with crown
+  moulding and a wood baseboard, per-room themes
+- **Cosy lighting:** soft sunbeams from the windows, a flickering fireplace
+  glow, and a gentle vignette
+- A **fireplace** with animated flames and a **napping cat** (tail flick +
+  blinks) on the rug
+- A friendlier farmer-style character and warmer furniture + UI palette
+
 Ideas for later phases:
 - More rooms / a second floor
-- NPCs or a pet that follows you
+- A pet that follows you around
 - A minimap or quest-style hints
 - Save the visitor's last room in `localStorage`

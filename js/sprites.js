@@ -1,9 +1,8 @@
 /* =========================================================================
- *  sprites.js  —  programmatic 8-bit pixel art
+ *  sprites.js  —  programmatic pixel art (warm, Stardew-flavoured)
  * =========================================================================
  *  Art is defined as arrays of strings ("pixel grids"). Each character maps
- *  to a colour in a palette. "." or " " means transparent. This is how we
- *  "generate everything ourselves" with zero image assets.
+ *  to a colour in a palette. "." or " " means transparent. Zero image assets.
  * ========================================================================= */
 
 /* Draw a pixel grid at (x, y) in world pixels. `scale` is pixels-per-cell.
@@ -16,7 +15,7 @@ function drawPixels(ctx, grid, palette, x, y, scale = 1, opts) {
     const row = grid[r];
     let off = 0;
     if (sway) {
-      const lean = (rows - r) / rows;               // top rows lean more
+      const lean = (rows - r) / rows;
       off = Math.round(Math.sin(sway.time * sway.speed) * sway.amp * lean);
     }
     for (let c = 0; c < row.length; c++) {
@@ -30,161 +29,188 @@ function drawPixels(ctx, grid, palette, x, y, scale = 1, opts) {
   }
 }
 
-/* ---- Shared 8-bit-ish palette (NES/PICO-8 flavoured) ---- */
+/* ---- Player palette: cosy farmer (warm skin, brown hair, denim) ---- */
 const PAL = {
-  k: "#1a1c2c", // outline / near-black
-  d: "#333c57", // dark shadow blue
-  s: "#ffcd75", // skin
-  S: "#ef7d57", // skin shadow
-  h: "#a05b53", // hair (brown)
-  H: "#8b4a44", // hair shadow
-  b: "#41a6f6", // shirt blue
-  B: "#3b5dc9", // shirt shadow
-  p: "#566c86", // pants
-  P: "#3b4a63", // pants shadow
-  o: "#422433", // shoes
-  w: "#f4f4f4", // white
-  e: "#1a1c2c", // eyes
+  k: "#3a2a1a", // warm outline
+  s: "#f4c08a", // skin
+  S: "#d99a64", // skin shadow
+  h: "#7a4a22", // hair
+  H: "#5c3414", // hair shadow
+  b: "#3f8f5a", // shirt (green)
+  B: "#2f6b42", // shirt shadow
+  p: "#3f6193", // overalls (denim)
+  P: "#2d4870", // overalls shadow
+  w: "#f6e9c9", // collar / buttons
+  o: "#5a3a22", // shoes
+  e: "#3a2a1a", // eyes
 };
 
 /* =========================================================================
- *  PLAYER CHARACTER  (16x16) — 4 facings, 2 walk frames each.
- *  Left is the mirror of right (handled at draw time).
+ *  PLAYER  (16x16) — facings down/up/right (left = mirror of right),
+ *  two walk frames each.
  * ========================================================================= */
 const PLAYER = {
   down: [
     [
-      "................",
       "....hhhhhhhh....",
       "...hhhhhhhhhh...",
-      "..hHhhhhhhhhHh..",
+      "..hhhhhhhhhhhh..",
+      "..hhssssssshhh..",
       "..hsssssssssh...",
-      "..hseskkseshh...",
-      "..hssssssssh....",
-      "..hsSsssSsSh....",
-      "...hssⁿⁿssh.....".replace(/ⁿ/g, "k"),
-      "....bbbbbbbb....",
-      "...bBbbbbbbBb...",
-      "...bbbssssbbb...",
-      "...bb ssss bb...",
-      "....pppppppp....",
-      "....pp....pp....",
-      "....oo....oo....",
+      "..hsesssssesh...",
+      "..hsssssssssh...",
+      "...Sssssssss....",
+      "...wpbbbbpw.....",
+      "..ppbbbbbbpp....",
+      "..pbwbbbbwbp....",
+      "..pbbbbbbbbp....",
+      "...pp....pp.....",
+      "...pp....pp.....",
+      "...oo....oo.....",
+      "...oo....oo.....",
     ],
     [
-      "................",
       "....hhhhhhhh....",
       "...hhhhhhhhhh...",
-      "..hHhhhhhhhhHh..",
+      "..hhhhhhhhhhhh..",
+      "..hhssssssshhh..",
       "..hsssssssssh...",
-      "..hseskkseshh...",
-      "..hssssssssh....",
-      "..hsSsssSsSh....",
-      "...hsskkssh.....",
-      "....bbbbbbbb....",
-      "...bBbbbbbbBb...",
-      "...bbbssssbbb...",
-      "...bb ssss bb...",
-      "....pppppppp....",
-      "...pp......pp...",
-      "...oo......oo...",
+      "..hsesssssesh...",
+      "..hsssssssssh...",
+      "...Sssssssss....",
+      "...wpbbbbpw.....",
+      "..ppbbbbbbpp....",
+      "..pbwbbbbwbp....",
+      "..pbbbbbbbbp....",
+      "....pp..pp......",
+      "...pp....pp.....",
+      "...oo....oo.....",
+      "..oo......oo....",
     ],
   ],
   up: [
     [
-      "................",
       "....hhhhhhhh....",
       "...hhhhhhhhhh...",
-      "..hHhhhhhhhhHh..",
+      "..hhhhhhhhhhhh..",
+      "..hhhhhhhhhhhh..",
       "..hhhhhhhhhhh...",
       "..hhhhhhhhhhh...",
-      "..hhhhhhhhhh....",
       "..hhhhhhhhhh....",
       "...hhhhhhhh.....",
-      "....bbbbbbbb....",
-      "...bBbbbbbbBb...",
-      "...bbbbbbbbbb...",
-      "...bb bbbb bb...",
-      "....pppppppp....",
-      "....pp....pp....",
-      "....oo....oo....",
+      "...ppbbbbpp.....",
+      "..ppbbbbbbpp....",
+      "..pbbbbbbbbp....",
+      "..pbbbbbbbbp....",
+      "...pp....pp.....",
+      "...pp....pp.....",
+      "...oo....oo.....",
+      "...oo....oo.....",
     ],
     [
-      "................",
       "....hhhhhhhh....",
       "...hhhhhhhhhh...",
-      "..hHhhhhhhhhHh..",
+      "..hhhhhhhhhhhh..",
+      "..hhhhhhhhhhhh..",
       "..hhhhhhhhhhh...",
       "..hhhhhhhhhhh...",
-      "..hhhhhhhhhh....",
       "..hhhhhhhhhh....",
       "...hhhhhhhh.....",
-      "....bbbbbbbb....",
-      "...bBbbbbbbBb...",
-      "...bbbbbbbbbb...",
-      "...bb bbbb bb...",
-      "....pppppppp....",
-      "...pp......pp...",
-      "...oo......oo...",
+      "...ppbbbbpp.....",
+      "..ppbbbbbbpp....",
+      "..pbbbbbbbbp....",
+      "..pbbbbbbbbp....",
+      "....pp..pp......",
+      "...pp....pp.....",
+      "...oo....oo.....",
+      "..oo......oo....",
     ],
   ],
   right: [
     [
-      "................",
       "....hhhhhhh.....",
       "...hhhhhhhhh....",
-      "..hHhhhhhhhh....",
-      "..hssssshhh.....",
-      "..hsseskhh......",
-      "..hsssssh.......",
-      "..hsSssSh.......",
-      "...hsssh........",
-      "....bbbbb.......",
-      "...bBbbbbb......",
-      "...bbbbssss.....",
-      "...bb bssss.....",
-      "....pppp........",
-      "....pppp........",
-      "....ooo.........",
+      "..hhhhhhhhhh....",
+      "..hhsssssshh....",
+      "..hssssssshh....",
+      "..hsessssh......",
+      "..hssssssh......",
+      "...Sssssss......",
+      "...wpbbbbp......",
+      "..ppbbbbbbp.....",
+      "..pbbbbbbbsp....",
+      "..pbbbbbbbp.....",
+      "...ppp.pp.......",
+      "...pp..pp.......",
+      "...oo..oo.......",
+      "...oo..oo.......",
     ],
     [
-      "................",
       "....hhhhhhh.....",
       "...hhhhhhhhh....",
-      "..hHhhhhhhhh....",
-      "..hssssshhh.....",
-      "..hsseskhh......",
-      "..hsssssh.......",
-      "..hsSssSh.......",
-      "...hsssh........",
-      "....bbbbb.......",
-      "...bBbbbbb......",
-      "...bbbbssss.....",
-      "...bb bssss.....",
-      ".....ppp........",
-      "....pppp........",
-      "...ooo..........",
+      "..hhhhhhhhhh....",
+      "..hhsssssshh....",
+      "..hssssssshh....",
+      "..hsessssh......",
+      "..hssssssh......",
+      "...Sssssss......",
+      "...wpbbbbp......",
+      "..ppbbbbbbp.....",
+      "..pbbbbbbbsp....",
+      "..pbbbbbbbp.....",
+      "....pp.ppp......",
+      "...pp..pp.......",
+      "..oo...oo.......",
+      "..oo....oo......",
     ],
   ],
 };
 
 /* =========================================================================
- *  FURNITURE & DECOR  — bigger grids, drawn once into the room.
+ *  CAT  (12x10) — orange tabby napping on the rug. Two tail frames; the
+ *  game adds an occasional blink on top.
  * ========================================================================= */
+const CAT_PAL = {
+  c: "#e0954a", C: "#b56f30", w: "#f6e9c9", p: "#d96a8a", e: "#3a2a1a", k: "#5a3a22",
+};
+const CAT = [
+  [
+    ".cc....cc...",
+    ".cCc..cCc...",
+    ".cccccccc...",
+    ".cececec c..",
+    ".ccccpccc...",
+    ".cwwwwwwc.t.",
+    ".cwwwwwwct t",
+    "..cwwwwc..t.",
+    "..cccccc....",
+    "............",
+  ],
+  [
+    ".cc....cc...",
+    ".cCc..cCc...",
+    ".cccccccc...",
+    ".cececec c..",
+    ".ccccpccc...",
+    ".cwwwwwwc...",
+    ".cwwwwwwc.t.",
+    "..cwwwwc.tt.",
+    "..cccccc.t..",
+    "............",
+  ],
+];
+
+/* =========================================================================
+ *  FURNITURE & DECOR  (warm palettes)
+ * ========================================================================= */
+const WOOD = { f: "#9c6630", F: "#7a4a22", M: "#5c3414" };
 
 const ART = {
-  /* Bulletin board (CV + achievements). 32 wide x 26 tall cells. */
+  /* Bulletin board (CV + achievements) */
   board: {
     pal: {
-      f: "#8b5a2b", // frame
-      F: "#6b4421", // frame shadow
-      c: "#d9c39a", // cork
-      C: "#c4ad84", // cork shadow
-      p: "#f4f4f4", // paper
-      t: "#41a6f6", // pin blue
-      r: "#ef5253", // pin red
-      g: "#38b764", // pin green
-      k: "#1a1c2c",
+      f: "#9c6630", F: "#7a4a22", c: "#caa873", C: "#b08f5a",
+      p: "#f6ecd6", t: "#4a90d6", r: "#e06a5a", g: "#5aa86a", k: "#3a2a1a",
     },
     grid: [
       "ffffffffffffffffffffffffffffffff",
@@ -210,19 +236,12 @@ const ART = {
     ],
   },
 
-  /* Desk + PC monitor (projects). 34 wide. */
+  /* Desk + PC monitor (projects). Screen is animated by world.js. */
   desk: {
     pal: {
-      d: "#8b5a2b", // desk top
-      D: "#6b4421", // desk shadow / legs
-      m: "#1a1c2c", // monitor bezel
-      M: "#333c57", // bezel light
-      g: "#41a6f6", // screen glow
-      G: "#a7f3ff", // screen highlight
-      t: "#566c86", // tower
-      T: "#3b4a63",
-      w: "#f4f4f4", // keyboard
-      k: "#1a1c2c",
+      d: "#9c6630", D: "#7a4a22", m: "#2b2233", M: "#473a52",
+      g: "#3aa0d8", G: "#a7f3ff", t: "#6a7a8c", T: "#46566a",
+      w: "#e9e2d0", k: "#3a2a1a",
     },
     grid: [
       "..........mmmmmmmmmmmm..........",
@@ -244,30 +263,37 @@ const ART = {
     ],
   },
 
-  /* Potted plant. 12 wide. */
-  plant: {
-    pal: { g: "#38b764", G: "#257179", p: "#c44b3a", P: "#8b3527", k: "#1a1c2c" },
+  /* Fireplace (animated flames drawn by world.js into `fire` region) */
+  fireplace: {
+    fire: { cx: 4, cy: 5, cw: 14, ch: 7 },
+    pal: {
+      m: "#9c6630", M: "#7a4a22", s: "#a89a8c", S: "#867a6e",
+      b: "#a8553a", B: "#7d3a26", d: "#160d06", g: "#4a4038", k: "#3a2a1a",
+    },
     grid: [
-      "...gg..gg...",
-      "..gGggggGg..",
-      ".gggGggggGg.",
-      "gggggGgggggg",
-      ".gggggggGgg.",
-      "..ggGgggg g.",
-      "...gg gg....",
-      "....pppp....",
-      "...pppppp...",
-      "...pPPPPp...",
-      "...pppppp...",
-      "....pPPp....",
+      "mmmmmmmmmmmmmmmmmmmmmm",
+      "MMMMMMMMMMMMMMMMMMMMMM",
+      "ssssssssssssssssssssss",
+      "sSssSssSssSssSssSssSss",
+      "ss bbbbbbbbbbbbbbbb ss",
+      "ss bdddddddddddddb ss.",
+      "ss bdddddddddddddb ss.",
+      "ss bdddddddddddddb ss.",
+      "ss bdddddddddddddb ss.",
+      "ss bdddddddddddddb ss.",
+      "sS bdddddddddddddb Ss.",
+      "ss bgggggggggggggb ss.",
+      "ss bbbbbbbbbbbbbbbb ss",
+      "ssssssssssssssssssssss",
+      "SSSSSSSSSSSSSSSSSSSSSS",
     ],
   },
 
-  /* Window with sky + sun. 28 wide. */
+  /* Window with sky + sun (clouds animated by world.js) */
   window: {
     pal: {
-      f: "#8b5a2b", F: "#6b4421", s: "#41a6f6", S: "#73c2ff",
-      y: "#ffcd75", c: "#f4f4f4", k: "#1a1c2c",
+      f: "#9c6630", F: "#7a4a22", s: "#7fc6f0", S: "#5aa8df",
+      y: "#ffd977", c: "#f6ecd6", t: "#c98a4a", k: "#3a2a1a",
     },
     grid: [
       "ffffffffffffffffffffffffffff",
@@ -278,13 +304,13 @@ const ART = {
       "fFssssyyysssssssssssSSSSSSFf",
       "fFssssssssssssssSSSSSSSSSSFf",
       "fFFFFFFFFFFFFFFFFFFFFFFFFFFf",
-      "ffffffffffffffffffffffffffff",
+      "fttttttttttttttttttttttttttf",
     ],
   },
 
-  /* Mailbox (contact). 12 wide. */
+  /* Mailbox (contact) */
   mailbox: {
-    pal: { r: "#ef5253", R: "#b5343a", w: "#f4f4f4", p: "#8b5a2b", P: "#6b4421", k: "#1a1c2c" },
+    pal: { r: "#e06a5a", R: "#b5443a", w: "#f6ecd6", p: "#9c6630", P: "#7a4a22", k: "#3a2a1a" },
     grid: [
       "...rrrrrr...",
       "..rRRRRRRRr.",
@@ -301,32 +327,51 @@ const ART = {
     ],
   },
 
-  /* Door (contact). 16 wide. */
+  /* Door (room portal) */
   door: {
-    pal: { f: "#8b5a2b", F: "#6b4421", d: "#a06a36", h: "#ffcd75", k: "#1a1c2c" },
+    pal: { f: "#9c6630", F: "#7a4a22", d: "#b5814a", D: "#8a5e34", h: "#ffd977", k: "#3a2a1a" },
     grid: [
       "ffffffffffffffff",
       "fFFFFFFFFFFFFFFf",
       "fFddddddddddddFf",
+      "fFdDDDDddDDDDdFf",
+      "fFdDddddddddDhFf",
+      "fFdDddddddddDdFf",
+      "fFdDDDDddDDDDdFf",
       "fFddddddddddddFf",
-      "fFdddddddddhdFf.",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
-      "fFddddddddddddFf",
+      "fFdDDDDddDDDDdFf",
+      "fFdDddddddddDdFf",
+      "fFdDddddddddDdFf",
+      "fFdDDDDddDDDDdFf",
       "fFFFFFFFFFFFFFFf",
     ],
   },
 
-  /* Bookshelf. 24 wide. */
+  /* Potted plant */
+  plant: {
+    pal: { g: "#4aa85a", G: "#2f7d42", p: "#c46a3a", P: "#9c4f29", k: "#3a2a1a" },
+    grid: [
+      "...gg..gg...",
+      "..gGggggGg..",
+      ".gggGggggGg.",
+      "gggggGgggggg",
+      ".gggggggGgg.",
+      "..ggGgggg g.",
+      "...gg gg....",
+      "....pppp....",
+      "...pppppp...",
+      "...pPPPPp...",
+      "...pppppp...",
+      "....pPPp....",
+    ],
+  },
+
+  /* Bookshelf */
   shelf: {
     pal: {
-      f: "#6b4421", F: "#4a2f17",
-      a: "#ef5253", b: "#41a6f6", c: "#38b764", d: "#ffcd75", e: "#a05b53",
-      k: "#1a1c2c",
+      f: "#7a4a22", F: "#5c3414",
+      a: "#e06a5a", b: "#4a90d6", c: "#5aa86a", d: "#ffd977", e: "#a86ad0",
+      k: "#3a2a1a",
     },
     grid: [
       "ffffffffffffffffffffffff",
@@ -342,24 +387,24 @@ const ART = {
     ],
   },
 
-  /* Rug (drawn on the floor). 48 wide. */
+  /* Patterned rug (Stardew-ish: border + diamond centre) */
   rug: {
-    pal: { a: "#ef5253", b: "#c43a3a", c: "#ffcd75", k: "#1a1c2c" },
+    pal: { a: "#c0533f", b: "#9c3f30", c: "#e8b86a", d: "#d98a4a", k: "#3a2a1a" },
     grid: [
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbba",
-      "abcccccccccccccccccccccccccccccccccccccccccccba",
-      "abccaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaccccba".slice(0, 48),
-      "abccaccccccccccccccccccccccccccccccccccccacccba".slice(0, 48),
-      "abccacccccccccccccccccccccccccccccccccccacccccba".slice(0, 48),
-      "abccacccccccccccccccccccccccccccccccccccacccccba".slice(0, 48),
-      "abccaccccccccccccccccccccccccccccccccccccacccba".slice(0, 48),
-      "abccaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaccccba".slice(0, 48),
-      "abcccccccccccccccccccccccccccccccccccccccccccba",
+      "abccccccccccccccccccccccccccccccccccccccccccccba",
+      "abccdddddddddddddddddddddddddddddddddddddddccccba".slice(0, 48),
+      "abccddddddddddddddddaaddddddddddddddddddddcccccba".slice(0, 48),
+      "abccdddddddddddddddaccaddddddddddddddddddcccccba".slice(0, 48),
+      "abccdddddddddddddddaccaddddddddddddddddddcccccba".slice(0, 48),
+      "abccddddddddddddddddaaddddddddddddddddddddcccccba".slice(0, 48),
+      "abccdddddddddddddddddddddddddddddddddddddddccccba".slice(0, 48),
+      "abccccccccccccccccccccccccccccccccccccccccccccba",
       "abbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbba",
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     ],
   },
 };
 
-window.SPRITES = { drawPixels, PAL, PLAYER, ART };
+window.SPRITES = { drawPixels, PAL, PLAYER, CAT, CAT_PAL, ART, WOOD };

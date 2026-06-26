@@ -100,17 +100,26 @@ function drawPlayer(ctx, p, t) {
   }
 }
 
-/* Which interactive object (if any) is the player standing in front of? */
+/* Which interactive object (if any) is the player standing in front of?
+ * Forgiving: anywhere across the object's width and within ~1 tile in front
+ * counts. If several overlap, the nearest wins. */
 function nearbyObject(p, objects) {
   const { TILE } = window.WORLD;
   const fb = p.hitbox();
   const cx = fb.x + fb.w / 2, cy = fb.y + fb.h / 2;
   const c = Math.floor(cx / TILE), r = Math.floor(cy / TILE);
+  let best = null, bestD = Infinity;
   for (const o of objects) {
     if (!o.front) continue;
-    if (Math.abs(o.front.c - c) <= 1 && Math.abs(o.front.r - r) <= 1) return o;
+    const c0 = Math.floor(o.x / TILE) - 1, c1 = Math.floor((o.x + o.w - 1) / TILE) + 1;
+    const inCols = c >= c0 && c <= c1;
+    const dr = Math.abs(o.front.r - r);
+    if (inCols && dr <= 1) {
+      const d = Math.abs(o.front.c - c) + dr * 2;
+      if (d < bestD) { bestD = d; best = o; }
+    }
   }
-  return null;
+  return best;
 }
 
 window.PLAYER_API = { createPlayer, updatePlayer, drawPlayer, nearbyObject };
