@@ -139,7 +139,7 @@ function buildRoom(key) {
 
   const objects = def.objects.map((d) => {
     let w, h;
-    if (d.cat) { w = 12 * d.scale; h = 10 * d.scale; }
+    if (d.cat) { const g = gridSize(window.SPRITES.CAT[0]); w = g.cols * d.scale; h = g.rows * d.scale; }
     else { const g = gridSize(d.art.grid); w = g.cols * d.scale; h = g.rows * d.scale; }
     const o = { ...d, w, h, draw: makeDraw(d) };
 
@@ -184,7 +184,7 @@ function animCat(ctx, o, t) {
   const pal = blink ? Object.assign({}, S.CAT_PAL, { e: S.CAT_PAL.c }) : S.CAT_PAL;
   // soft shadow
   ctx.fillStyle = "rgba(0,0,0,0.18)";
-  ctx.fillRect(o.x + 3, o.y + 9 * o.scale, 8 * o.scale, 3);
+  ctx.fillRect(o.x + 2 * o.scale, o.y + 10 * o.scale, 12 * o.scale, 3);
   S.drawPixels(ctx, S.CAT[frame], pal, o.x, o.y, o.scale);
 }
 
