@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>8-bit Portfolio</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game"></canvas>
+
+    <!-- name plate -->
+    <div id="nameplate"></div>
+
+    <!-- current room label -->
+    <div id="roomlabel"></div>
+
+    <!-- sound toggle -->
+    <button id="sound-btn" title="Toggle sound (M)">🔊</button>
+
+    <!-- interaction hint -->
+    <div id="prompt"></div>
+
+    <!-- on-screen controls (touch + mouse) -->
+    <div id="controls">
+      <div class="dpad">
+        <button class="db up"    data-dir="up">▲</button>
+        <button class="db left"  data-dir="left">◀</button>
+        <button class="db right" data-dir="right">▶</button>
+        <button class="db down"  data-dir="down">▼</button>
+      </div>
+      <button id="btn-action">E</button>
+    </div>
+
+    <!-- title screen -->
+    <div id="title">
+      <div class="title-box">
+        <h1 id="title-name">YOUR NAME</h1>
+        <p id="title-role" class="role">Software Developer</p>
+        <p id="title-intro" class="intro"></p>
+        <p class="hint">Move: Arrow keys / WASD &nbsp;·&nbsp; Interact: E &nbsp;·&nbsp; Close: Esc<br>Walk through the door to explore the house &nbsp;·&nbsp; Sound: M</p>
+        <button id="start-btn">▶ ENTER</button>
+      </div>
+    </div>
+
+    <!-- content overlay -->
+    <div id="overlay">
+      <div class="window-frame">
+        <div class="window-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <button id="overlay-close">✕</button>
+        </div>
+        <div id="panel" class="window-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/content.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/interactions.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
