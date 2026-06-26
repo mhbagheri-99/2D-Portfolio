@@ -69,7 +69,7 @@ function tryMove(p, vx, vy, solid, COLS, ROWS, TILE) {
   if (blocked) { p.x -= vx; p.y -= vy; }
 }
 
-function drawPlayer(ctx, p) {
+function drawPlayer(ctx, p, t) {
   const S = window.SPRITES;
   const frame = p.moving ? Math.floor(p.animTime / 8) % 2 : 0;
 
@@ -78,16 +78,22 @@ function drawPlayer(ctx, p) {
   if (key === "left") { key = "right"; mirror = true; }
   const grid = S.PLAYER[key][frame];
 
-  // soft shadow under the feet
+  // vertical bob: a quick bounce while walking, a slow breathe while idle
+  const bob = p.moving
+    ? -Math.abs(Math.round(Math.sin(p.animTime / 8 * Math.PI) * 1))
+    : Math.round(Math.sin(t * 2) * 0.5 - 0.5);
+  const dy = bob;
+
+  // soft shadow under the feet (stays put while the body bobs)
   ctx.fillStyle = "rgba(0,0,0,0.25)";
   ctx.fillRect(p.x + 3, p.y + 15, 10, 2);
 
   if (!mirror) {
-    S.drawPixels(ctx, grid, S.PAL, p.x, p.y, 1);
+    S.drawPixels(ctx, grid, S.PAL, p.x, p.y + dy, 1);
   } else {
     // draw mirrored by flipping the canvas around the sprite centre
     ctx.save();
-    ctx.translate(p.x + 16, p.y);
+    ctx.translate(p.x + 16, p.y + dy);
     ctx.scale(-1, 1);
     S.drawPixels(ctx, grid, S.PAL, 0, 0, 1);
     ctx.restore();

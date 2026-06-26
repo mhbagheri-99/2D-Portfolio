@@ -6,17 +6,26 @@
  *  "generate everything ourselves" with zero image assets.
  * ========================================================================= */
 
-/* Draw a pixel grid at (x, y) in world pixels. `scale` is pixels-per-cell. */
-function drawPixels(ctx, grid, palette, x, y, scale = 1) {
-  for (let r = 0; r < grid.length; r++) {
+/* Draw a pixel grid at (x, y) in world pixels. `scale` is pixels-per-cell.
+ * opts.sway = { amp, speed, time } gently shifts upper rows sideways so
+ * things like plants appear to wave in a breeze. */
+function drawPixels(ctx, grid, palette, x, y, scale = 1, opts) {
+  const sway = opts && opts.sway;
+  const rows = grid.length;
+  for (let r = 0; r < rows; r++) {
     const row = grid[r];
+    let off = 0;
+    if (sway) {
+      const lean = (rows - r) / rows;               // top rows lean more
+      off = Math.round(Math.sin(sway.time * sway.speed) * sway.amp * lean);
+    }
     for (let c = 0; c < row.length; c++) {
       const ch = row[c];
       if (ch === "." || ch === " ") continue;
       const color = palette[ch];
       if (!color) continue;
       ctx.fillStyle = color;
-      ctx.fillRect(x + c * scale, y + r * scale, scale, scale);
+      ctx.fillRect(x + c * scale + off, y + r * scale, scale, scale);
     }
   }
 }
@@ -264,12 +273,31 @@ const ART = {
       "ffffffffffffffffffffffffffff",
       "fFFFFFFFFFFFFFFFFFFFFFFFFFFf",
       "fFssssssssssssssssssssssssFf",
-      "fFsssssyysssssssssccccsssSFf",
-      "fFssssyyyysscccsssccccssSSFf",
-      "fFsssssyysssccccccsssssSSSFf",
-      "fFsssssssssssssssssssSSSSSFf",
+      "fFssssyyyssssssssssssssssSFf",
+      "fFsssyyyyysssssssssssssSSSFf",
+      "fFssssyyysssssssssssSSSSSSFf",
+      "fFssssssssssssssSSSSSSSSSSFf",
       "fFFFFFFFFFFFFFFFFFFFFFFFFFFf",
       "ffffffffffffffffffffffffffff",
+    ],
+  },
+
+  /* Mailbox (contact). 12 wide. */
+  mailbox: {
+    pal: { r: "#ef5253", R: "#b5343a", w: "#f4f4f4", p: "#8b5a2b", P: "#6b4421", k: "#1a1c2c" },
+    grid: [
+      "...rrrrrr...",
+      "..rRRRRRRRr.",
+      ".rRrrrrrrRRr",
+      ".RrwwwwwwrRR",
+      ".RrwwwwwwrRR",
+      ".rRrrrrrrRRr",
+      "..rRRRRRRRr.",
+      "....pPPp....",
+      "....pPPp....",
+      "....pPPp....",
+      "....pPPp....",
+      "...pPPPPp...",
     ],
   },
 
