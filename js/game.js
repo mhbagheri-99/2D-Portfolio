@@ -23,6 +23,10 @@
   const player = P.createPlayer();
   Object.assign(player, room.spawn);
 
+  /* read-only state accessor for tests/debugging */
+  window.__debugState = () =>
+    ({ x: player.x, y: player.y, room: room.key, near: near ? near.id : null });
+
   // floating dust motes for ambience
   const dust = Array.from({ length: 16 }, () => ({
     x: Math.random() * W.WIDTH,

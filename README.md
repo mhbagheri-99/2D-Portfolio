@@ -1,10 +1,10 @@
-# 🕹️ 8-bit Portfolio
+# 🕹️ Mohammad H. Bagheri — Pixel Portfolio
 
-A tiny **2D, cosy pixel-art portfolio** you explore like a retro farming game.
-Walk your character around a warm little **house** — past a crackling
-fireplace and a napping cat — move between rooms through a door, and step up to
-objects to reveal your CV, achievements, and projects. Soft lighting, animated
-scenery, and generated chiptune music throughout.
+A **2D, cosy pixel-art portfolio** you explore like a retro farming game.
+Walk around a warm little **house** — past a crackling fireplace and a napping
+cat — move between rooms through a door, and step up to objects to reveal the
+CV, achievements, web projects, and games. Soft lighting, animated scenery,
+and generated chiptune music throughout.
 
 Everything is **generated in code** — the room, furniture, and character are
 all drawn from pixel grids. There are **no image assets and no build step or
@@ -12,10 +12,11 @@ dependencies**. Just plain HTML, CSS, and vanilla JavaScript.
 
 | Room | Object | Walk up + press **E** | Shows |
 | --- | --- | --- | --- |
-| Living Room | 📌 Bulletin board | `cv` | CV summary, skills, experience, education, achievements |
-| Living Room | 📮 Mailbox | `contact` | Email + social links |
+| Living Room | 📌 Bulletin board | `cv` | Summary, experience, skills, education, languages, achievements |
+| Living Room | 📮 Mailbox | `contact` | Email, location + social links |
 | Living Room | 🚪 Door | — | Walk into the **Study** |
-| Study | 🖥️ PC / desk | `projects` | Your list of projects |
+| Study | 🖥️ PC / desk | `projects` | Open-source, web & academic projects |
+| Study | 🕹️ Arcade cabinet | `games` | UE5 / Unity game-dev projects (it plays pong by itself!) |
 | Study | 🚪 Door | — | Walk back to the **Living Room** |
 
 ## ▶ Run it
@@ -38,12 +39,14 @@ Then open the printed URL in a browser.
 - **Toggle sound:** **M** (or the 🔊 button, top-right)
 - **Touch / mouse:** on-screen D-pad and **E** button (handy on phones)
 
-## ✏️ Make it yours
+## ✏️ Updating the content
 
-Open **`js/content.js`** and edit the text — that single file holds your name,
-bio, skills, experience, education, achievements, projects, and contact links.
-No coding knowledge needed; just change the words inside the quotes. Add or
-remove list items freely.
+Open **`js/content.js`** — that single file holds the name, bio, skill groups,
+experience, education, languages, achievements, projects (grouped into
+`oss` / `web` / `academic` for the PC and `game` for the arcade machine), and
+contact links. Just change the words inside the quotes; add or remove list
+items freely. Project `link`s currently point at the GitHub profile — swap in
+the exact repo URLs whenever you like.
 
 ## 📁 Project structure
 

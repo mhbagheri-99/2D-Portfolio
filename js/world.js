@@ -115,7 +115,10 @@ function roomDefs() {
         { id: "window", art: A.window, x: 290, y: 6, scale: 3, decor: true, solidRows: 0,
           clouds: { cx: 2, cy: 2, cw: 24, ch: 5 } },
         { id: "shelf", art: A.shelf, x: 8, y: 150, scale: 3, decor: true, solidRows: 1 },
-        { id: "plant", art: A.plant, x: 340, y: 150, scale: 3, decor: true, solidRows: 2,
+        { id: "arcade", art: A.arcade, x: 316, y: 128, scale: 3, action: "games",
+          label: "Play: Game Dev Projects", solidRows: 2,
+          pong: { cx: 2, cy: 4, cw: 12, ch: 6 } },
+        { id: "plant", art: A.plant, x: 344, y: 62, scale: 3, decor: true, solidRows: 2,
           sway: { amp: 2, speed: 1.7 } },
       ],
     },
@@ -153,6 +156,7 @@ function buildRoom(key) {
     if (!d.decor) {
       const cc = Math.floor((d.x + w / 2) / TILE);
       o.front = { c: cc, r: Math.min(ROWS - 2, r1 + 1) };
+      o.solidBox = { c0, c1, r0, r1 };   // for adjacency-based interaction
     }
     return o;
   });
@@ -168,6 +172,7 @@ function makeDraw(d) {
     window.SPRITES.drawPixels(ctx, d.art.grid, d.art.pal, d.x, d.y, d.scale, opts);
     if (d.art.fire) animFire(ctx, d, t);
     if (d.screen) animScreen(ctx, d, t);
+    if (d.pong) animPong(ctx, d, t);
     if (d.clouds) animClouds(ctx, d, t);
   };
 }
@@ -249,6 +254,35 @@ function animScreen(ctx, o, t) {
   }
   ctx.fillStyle = "rgba(255,255,255,0.06)";
   ctx.fillRect(r.x, r.y + ((t * 40) % r.h), r.w, 2);
+  ctx.restore();
+}
+
+/* ---- arcade screen: a tiny self-playing pong match ---- */
+function animPong(ctx, o, t) {
+  const r = cellRect(o, o.pong);
+  const tri = (u) => Math.abs(((u % 1) + 1) % 1 - 0.5) * 2; // 0..1..0 wave
+  ctx.save();
+  ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip();
+  ctx.fillStyle = "#1a1030"; ctx.fillRect(r.x, r.y, r.w, r.h);
+
+  // dashed centre line
+  ctx.fillStyle = "rgba(246,236,214,0.25)";
+  for (let yy = r.y + 1; yy < r.y + r.h; yy += 5)
+    ctx.fillRect(r.x + r.w / 2 - 0.5, yy, 1, 3);
+
+  // ball bounces on two incommensurate triangle waves
+  const bx = r.x + 2 + tri(t * 0.37) * (r.w - 6);
+  const by = r.y + 1 + tri(t * 0.53) * (r.h - 4);
+  ctx.fillStyle = "#ffd977";
+  ctx.fillRect(bx, by, 2, 2);
+
+  // paddles chase the ball (the right one lags a touch)
+  const ph = 6;
+  const clamp = (v) => Math.max(r.y + 1, Math.min(r.y + r.h - ph - 1, v));
+  ctx.fillStyle = "#f6ecd6";
+  ctx.fillRect(r.x + 1, clamp(by - ph / 2), 1.5, ph);
+  const by2 = r.y + 1 + tri(t * 0.53 - 0.06) * (r.h - 4);
+  ctx.fillRect(r.x + r.w - 2.5, clamp(by2 - ph / 2), 1.5, ph);
   ctx.restore();
 }
 

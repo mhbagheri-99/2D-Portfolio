@@ -274,7 +274,30 @@ canvas#game {
   border-bottom: 2px dashed #3a4060;
   padding-bottom: 4px;
 }
-.window-body .summary { color: #cdd2e4; margin-bottom: 6px; }
+.window-body .summary { color: #e6d9bd; margin-bottom: 6px; }
+.window-body .subtitle {
+  color: var(--accent);
+  letter-spacing: 1px;
+  font-size: 12px;
+  margin: -8px 0 10px;
+}
+.hint-line {
+  margin-top: 16px;
+  color: #b9a680;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.skills { display: flex; flex-direction: column; gap: 8px; }
+.skill-row { display: flex; gap: 10px; align-items: baseline; }
+.skill-cat {
+  flex: 0 0 92px;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.skill-row .tags { flex: 1; }
 
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag, .tags a {
@@ -314,6 +337,13 @@ canvas#game {
 .card-head { display: flex; justify-content: space-between; align-items: baseline; }
 .card-head a { color: var(--gold); text-decoration: none; font-size: 12px; }
 .card-head a:hover { text-decoration: underline; }
+.card-meta { display: flex; gap: 10px; align-items: baseline; white-space: nowrap; }
+.card-year {
+  color: #b9a680;
+  font-size: 11px;
+  border: 1px solid #5c4a30;
+  padding: 0 5px;
+}
 .card-tech { color: var(--accent); font-size: 12px; margin: 2px 0 6px; }
 .card-blurb { color: #b9bed4; font-size: 13px; }
 

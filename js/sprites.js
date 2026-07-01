@@ -397,6 +397,36 @@ const ART = {
     ],
   },
 
+  /* Arcade cabinet (game-dev projects). Screen animated by world.js. */
+  arcade: {
+    pal: {
+      c: "#7a4aa0", C: "#5c3680", m: "#ffd977", M: "#c98a2a",
+      s: "#1a1030", j: "#3a2a1a", r: "#e06a5a", g: "#5aa86a", k: "#3a2a1a",
+    },
+    grid: [
+      ".cccccccccccccc.",
+      "cCmmmmmmmmmmmmCc",
+      "cCmMmMmMmMmMmMCc",
+      "cccccccccccccccc",
+      "cCssssssssssssCc",
+      "cCssssssssssssCc",
+      "cCssssssssssssCc",
+      "cCssssssssssssCc",
+      "cCssssssssssssCc",
+      "cCssssssssssssCc",
+      "cccccccccccccccc",
+      "cCCCCCCCCCCCCCCc",
+      "cCcjccrrcggcccCc",
+      "cccccccccccccccc",
+      "cCccccccccccccCc",
+      "cCccccccccccccCc",
+      "cCccccccccccccCc",
+      "cccccccccccccccc",
+      ".cc..........cc.",
+      ".cc..........cc.",
+    ],
+  },
+
   /* Patterned rug (border + centred diamond) */
   rug: {
     pal: { a: "#c0533f", b: "#9c3f30", c: "#e8b86a", d: "#d98a4a", k: "#3a2a1a" },
